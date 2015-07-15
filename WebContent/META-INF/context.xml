@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true">
+	<Resource	name="jdbc/CompraCombinadaDB" 
+				auth="Container" 
+				type="javax.sql.DataSource"
+				maxAge='1200000'
+				factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+			    initialSize="5"
+			    maxActive="55"
+			    maxIdle="21"
+			    minIdle="13"
+			    timeBetweenEvictionRunsMillis="34000"
+			    minEvictableIdleTimeMillis="55000"
+			    validationQuery="SELECT 1"
+			    validationInterval="34"
+			    testOnBorrow="true"
+			    logAbandoned="true"
+			    testWhileIdle="true"
+			    removeAbandoned="true"
+			    removeAbandonedTimeout="60"
+				username="root" 
+				password="compracombinada" 
+				driverClassName="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://compracombinada.cubupiuk3qim.sa-east-1.rds.amazonaws.com/compracombinada"/>
+
+				
+				
+</Context>

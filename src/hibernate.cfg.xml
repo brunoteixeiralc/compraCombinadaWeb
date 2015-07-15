@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC 
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<property name="connection.datasource">java:comp/env/jdbc/CompraCombinadaDB</property> 
+        <property name="current_session_context_class">thread</property> 
+		<!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+ 
+        <mapping class="br.com.compra.combinada.bean.Amizade"/>
+        <mapping class="br.com.compra.combinada.bean.Evento"/>
+        <mapping class="br.com.compra.combinada.bean.Lista"/>
+        <mapping class="br.com.compra.combinada.bean.ListaProduto"/>
+        <mapping class="br.com.compra.combinada.bean.Local"/>
+        <mapping class="br.com.compra.combinada.bean.Produto"/>
+        <mapping class="br.com.compra.combinada.bean.RegisterID"/>
+        <mapping class="br.com.compra.combinada.bean.Usuario"/>
+        <mapping class="br.com.compra.combinada.bean.Divisao"/>
+        <mapping class="br.com.compra.combinada.bean.Grupo"/>
+        <mapping class="br.com.compra.combinada.bean.Familia"/>
+        <mapping class="br.com.compra.combinada.bean.ValidarCotacao"/>
+        <mapping class="br.com.compra.combinada.bean.Cotacao"/>
+        <mapping class="br.com.compra.combinada.bean.ListaCotacao"/>
+        <mapping class="br.com.compra.combinada.bean.ListaProdutoCotacao"/>
+        <mapping class="br.com.compra.combinada.bean.ListaProdutoCotacaoAudit"/>
+        <mapping class="br.com.compra.combinada.bean.EventoConvidado"/>
+        <mapping class="br.com.compra.combinada.bean.Configuracao"/>
+        <mapping class="br.com.compra.combinada.bean.Solicitacoes"/>
+        <mapping class="br.com.compra.combinada.bean.Estado"/>
+        <mapping class="br.com.compra.combinada.bean.Fabricante"/>
+        <mapping class="br.com.compra.combinada.bean.Marca"/>
+        <mapping class="br.com.compra.combinada.bean.Municipio"/>
+        <mapping class="br.com.compra.combinada.bean.SubGrupo"/>
+
+    </session-factory>
+</hibernate-configuration>
