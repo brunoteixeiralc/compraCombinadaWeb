@@ -3,7 +3,6 @@ package br.com.compra.combinada.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -62,6 +61,11 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Solicitacoes> solicitacoes;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="usuario")
+	private List<Preferencia> preferencias;
+	
 	
 	private String login;
 	
@@ -195,6 +199,14 @@ public class Usuario implements Serializable {
 
 	public void setSolicitacoes(List<Solicitacoes> solicitacoes) {
 		this.solicitacoes = solicitacoes;
+	}
+
+	public List<Preferencia> getPreferencias() {
+		return preferencias;
+	}
+
+	public void setPreferencias(List<Preferencia> preferencias) {
+		this.preferencias = preferencias;
 	}
 
 

@@ -59,6 +59,14 @@ public class Produto implements Serializable{
 	private Timestamp interacao;
 	
 	private boolean ativo;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
+	private List<ProdutoPreferencia> listProdutoPreferencia;
+
+	@JsonIgnore
+	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
+	private List<Preferencia> listPreferencia;
 
 	public int getId() {
 		return id;
@@ -170,6 +178,22 @@ public class Produto implements Serializable{
 
 	public void setDivisao(Divisao divisao) {
 		this.divisao = divisao;
+	}
+
+	public List<ProdutoPreferencia> getListProdutoPreferencia() {
+		return listProdutoPreferencia;
+	}
+
+	public void setListProdutoPreferencia(List<ProdutoPreferencia> listProdutoPreferencia) {
+		this.listProdutoPreferencia = listProdutoPreferencia;
+	}
+
+	public List<Preferencia> getListPreferencia() {
+		return listPreferencia;
+	}
+
+	public void setListPreferencia(List<Preferencia> listPreferencia) {
+		this.listPreferencia = listPreferencia;
 	}
 	
 

@@ -35,6 +35,8 @@
         <mapping class="br.com.compra.combinada.bean.Marca"/>
         <mapping class="br.com.compra.combinada.bean.Municipio"/>
         <mapping class="br.com.compra.combinada.bean.SubGrupo"/>
+        <mapping class="br.com.compra.combinada.bean.Preferencia"/>
+        <mapping class="br.com.compra.combinada.bean.ProdutoPreferencia"/>
 
     </session-factory>
 </hibernate-configuration>

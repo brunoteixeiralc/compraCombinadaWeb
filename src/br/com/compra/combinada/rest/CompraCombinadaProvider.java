@@ -22,10 +22,12 @@ import br.com.compra.combinada.bean.Evento;
 import br.com.compra.combinada.bean.EventoConvidado;
 import br.com.compra.combinada.bean.Familia;
 import br.com.compra.combinada.bean.Lista;
+import br.com.compra.combinada.bean.ListaProduto;
 import br.com.compra.combinada.bean.ListaProdutoCotacao;
 import br.com.compra.combinada.bean.ListaProdutoCotacaoAudit;
 import br.com.compra.combinada.bean.Marca;
 import br.com.compra.combinada.bean.Produto;
+import br.com.compra.combinada.bean.ProdutoPreferencia;
 import br.com.compra.combinada.bean.Solicitacoes;
 import br.com.compra.combinada.bean.Usuario;
 import br.com.compra.combinada.bean.ValidarCotacao;
@@ -40,7 +42,9 @@ import br.com.compra.combinada.dao.ListaCotacaoDAO;
 import br.com.compra.combinada.dao.ListaDAO;
 import br.com.compra.combinada.dao.ListaProdutoCotacaoAuditDAO;
 import br.com.compra.combinada.dao.ListaProdutoCotacaoDAO;
+import br.com.compra.combinada.dao.ListaProdutoDAO;
 import br.com.compra.combinada.dao.MarcaDAO;
+import br.com.compra.combinada.dao.PreferenciaDAO;
 import br.com.compra.combinada.dao.ProdutoDAO;
 import br.com.compra.combinada.dao.SolicitacoesDAO;
 import br.com.compra.combinada.dao.UsuarioDAO;
@@ -73,6 +77,8 @@ public class CompraCombinadaProvider {
 	private MarcaDAO marcaDAO;
 	private FamiliaDAO familiaDAO;
 	private DivisaoDAO divisaoDAO;
+	private PreferenciaDAO preferenciaDAO;
+	private ListaProdutoDAO listaProdutoDAO;
 	private List<Cotacao> cotacoesUsuario;
 	private List<EventoConvidado> eventosConvidados;
 	private List<Evento> eventos;
@@ -90,6 +96,8 @@ public class CompraCombinadaProvider {
 	private Configuracao configuracao;
 	private Solicitacoes solicitacoes;
 	private Produto produto;
+	private List<ProdutoPreferencia> preferencias;
+	private ListaProduto listaProduto;
 
 	
 	@GET
@@ -202,6 +210,21 @@ public class CompraCombinadaProvider {
 
 		
 		return eventos;
+		
+	}
+	
+	@GET
+	@Path("/preferencia/{produtoId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ProdutoPreferencia> carregarPreferenciaProduto(@PathParam("produtoId") Integer produtoId){
+		
+
+		this.preferenciaDAO = DAOFactory.criarPreferenciaDAO();
+		preferencias = new ArrayList<ProdutoPreferencia>();
+		preferencias.addAll(this.preferenciaDAO.carregar(produtoId));
+
+		
+		return preferencias;
 		
 	}
 	
@@ -408,6 +431,16 @@ public class CompraCombinadaProvider {
 		validarCotacao = gson.fromJson(jsonCotacao,ValidarCotacao.class);
 		validarCotacao.getListaCotacao().setUsuario(validarCotacao.getUsuario());
 		
+//		this.listaProdutoDAO = DAOFactory.criarListaProdutoDAO();
+//		listaProduto = new ListaProduto();
+//		for (ListaProdutoCotacao ListaProdutoCotacao : validarCotacao.getListaCotacao().getProdutos()) {
+//			if(ListaProdutoCotacao.getProduto().getPreferencia() == 1){
+//				listaProduto = this.listaProdutoDAO.carregar(ListaProdutoCotacao.getProduto().getId(), ListaProdutoCotacao.getLista().getId());
+//				listaProduto.setProduto(ListaProdutoCotacao.getProdutoTempPref());
+//				this.listaProdutoDAO.update(listaProduto);
+//			}
+//		}
+		
 		this.listaCotacaoDAO = DAOFactory.criarListaCotacaoDAO();
 		this.listaCotacaoDAO.salvar(validarCotacao.getListaCotacao());
 		
@@ -417,6 +450,10 @@ public class CompraCombinadaProvider {
 		for (ListaProdutoCotacao lpc : validarCotacao.getListaCotacao().getProdutos()) {
 			
 			lpc.setLista(validarCotacao.getListaCotacao());
+			
+			if(lpc.getProduto().getPreferencia() == 1){
+				lpc.setProduto(lpc.getProdutoTempPref());	
+			}
 			
 			//Tabela de Auditoria
 			ListaProdutoCotacaoAudit lpcAudit = new ListaProdutoCotacaoAudit();
@@ -436,7 +473,6 @@ public class CompraCombinadaProvider {
 		this.validarCotacaoDAO.salvar(validarCotacao);
 
 		return Response.status(200).entity(validarCotacao.getId()).build();
-
 		
 	}
 	

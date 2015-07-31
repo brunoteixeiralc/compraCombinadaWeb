@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -35,6 +36,9 @@ public class ListaProdutoCotacao implements Serializable {
 	
 	@Column(name = "deletou_item")
 	private boolean deletou;
+	
+	@Transient
+	private Produto produtoTempPref;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -96,6 +100,14 @@ public class ListaProdutoCotacao implements Serializable {
 
 	public void setDeletou(boolean deletou) {
 		this.deletou = deletou;
+	}
+
+	public Produto getProdutoTempPref() {
+		return produtoTempPref;
+	}
+
+	public void setProdutoTempPref(Produto produtoTempPref) {
+		this.produtoTempPref = produtoTempPref;
 	}
 
 	

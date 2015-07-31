@@ -1,6 +1,7 @@
 
 package br.com.compra.combinada.util;
 
+import br.com.compra.combinada.bean.Preferencia;
 import br.com.compra.combinada.dao.AmizadeDAO;
 import br.com.compra.combinada.dao.ConfiguracaoDAO;
 import br.com.compra.combinada.dao.CotacaoDAO;
@@ -9,7 +10,9 @@ import br.com.compra.combinada.dao.EventoConvidadoDAO;
 import br.com.compra.combinada.dao.EventoDAO;
 import br.com.compra.combinada.dao.FamiliaDAO;
 import br.com.compra.combinada.dao.ListaDAO;
+import br.com.compra.combinada.dao.ListaProdutoDAO;
 import br.com.compra.combinada.dao.MarcaDAO;
+import br.com.compra.combinada.dao.PreferenciaDAO;
 import br.com.compra.combinada.dao.ProdutoDAO;
 import br.com.compra.combinada.dao.SolicitacoesDAO;
 import br.com.compra.combinada.dao.ValidarCotacaoDAO;
@@ -26,7 +29,9 @@ import br.com.compra.combinada.dao.hibernate.ListaCotacaoDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.ListaDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.ListaProdutoCotacaoAuditDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.ListaProdutoCotacaoDAOHibernate;
+import br.com.compra.combinada.dao.hibernate.ListaProdutoDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.MarcaDAOHibernate;
+import br.com.compra.combinada.dao.hibernate.PreferenciaDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.ProdutoDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.SolicitacoesDAOHibernate;
 import br.com.compra.combinada.dao.hibernate.UsuarioDAOHibernate;
@@ -129,5 +134,17 @@ public class DAOFactory {
 		DivisaoDAOHibernate divisaoDAO = new DivisaoDAOHibernate();
 		divisaoDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
 		return divisaoDAO;
+	}
+	
+	public static PreferenciaDAO criarPreferenciaDAO() {
+		PreferenciaDAOHibernate preferenciaDAO = new PreferenciaDAOHibernate();
+		preferenciaDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return preferenciaDAO;
+	}
+	
+	public static ListaProdutoDAO criarListaProdutoDAO() {
+		ListaProdutoDAOHibernate listaProdutoDAO = new ListaProdutoDAOHibernate();
+		listaProdutoDAO.setSession(HibernateUtil.getSessionFactory().getCurrentSession());
+		return listaProdutoDAO;
 	}
 }
