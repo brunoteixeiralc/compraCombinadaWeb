@@ -97,7 +97,7 @@ public class CompraCombinadaProvider {
 	private Solicitacoes solicitacoes;
 	private Produto produto;
 	private List<ProdutoPreferencia> preferencias;
-	private ListaProduto listaProduto;
+	private ListaProdutoCotacao produtoCotacao;
 
 	
 	@GET
@@ -421,6 +421,26 @@ public class CompraCombinadaProvider {
 	}
 	
 	@POST
+	@Path("/updateListaProdutoCotacao")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateListaProdutoCotacao(String jsonListaProdutoCotacao){
+		
+		gson = new Gson();
+		produtoCotacao = new ListaProdutoCotacao();
+		
+		produtoCotacao = gson.fromJson(jsonListaProdutoCotacao,ListaProdutoCotacao.class);
+		
+		this.listaProdutoCotacaoDAO = DAOFactory.criarListaProdutoCotacaoDAO();
+		
+		produtoCotacao.setLista(this.listaProdutoCotacaoDAO.carregar(produtoCotacao.getId()));
+		
+		this.listaProdutoCotacaoDAO.update(produtoCotacao);
+
+		return Response.status(200).entity("Produto cotação atualizado com sucesso").build();
+
+	}
+	
+	@POST
 	@Path("/addCotacao")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addCotacao(String jsonCotacao){
@@ -430,16 +450,6 @@ public class CompraCombinadaProvider {
 		
 		validarCotacao = gson.fromJson(jsonCotacao,ValidarCotacao.class);
 		validarCotacao.getListaCotacao().setUsuario(validarCotacao.getUsuario());
-		
-//		this.listaProdutoDAO = DAOFactory.criarListaProdutoDAO();
-//		listaProduto = new ListaProduto();
-//		for (ListaProdutoCotacao ListaProdutoCotacao : validarCotacao.getListaCotacao().getProdutos()) {
-//			if(ListaProdutoCotacao.getProduto().getPreferencia() == 1){
-//				listaProduto = this.listaProdutoDAO.carregar(ListaProdutoCotacao.getProduto().getId(), ListaProdutoCotacao.getLista().getId());
-//				listaProduto.setProduto(ListaProdutoCotacao.getProdutoTempPref());
-//				this.listaProdutoDAO.update(listaProduto);
-//			}
-//		}
 		
 		this.listaCotacaoDAO = DAOFactory.criarListaCotacaoDAO();
 		this.listaCotacaoDAO.salvar(validarCotacao.getListaCotacao());
@@ -463,6 +473,8 @@ public class CompraCombinadaProvider {
 			lpcAudit.setQuantidade(lpc.getQuantidade());
 			lpcAudit.setNaoContem(lpc.isNaoContem());
 			lpcAudit.setDeletou(lpc.isDeletou());
+			lpcAudit.setPreco(lpc.getPreco());
+			lpcAudit.setPrecoKG(lpc.getPrecoKG());
 			
 			this.listaProdutoCotacaoDAO.salvar(lpc);
 			this.listaProdutoCotacaoAuditDAO.salvar(lpcAudit);
@@ -589,6 +601,4 @@ public class CompraCombinadaProvider {
 		return Response.status(200).build();
 		
 	}
-	
-
 }

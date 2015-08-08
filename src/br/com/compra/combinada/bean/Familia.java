@@ -26,6 +26,8 @@ public class Familia implements Serializable {
 	private String nome;
 	
 	private String descricao;
+	
+	private String medida;
 
 	@ManyToOne
 	@JoinColumn(name = "subgrupo_id")
@@ -73,6 +75,14 @@ public class Familia implements Serializable {
 
 	public void setSubGrupo(SubGrupo subGrupo) {
 		this.subGrupo = subGrupo;
+	}
+
+	public String getMedida() {
+		return medida;
+	}
+
+	public void setMedida(String medida) {
+		this.medida = medida;
 	}
 	
 	

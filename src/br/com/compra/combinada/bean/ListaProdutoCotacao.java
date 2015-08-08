@@ -44,6 +44,9 @@ public class ListaProdutoCotacao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "lista_id")
 	private ListaCotacao lista;
+	
+	@Column(name = "preco_kg")
+	private float precoKG;
 
 	public int getId() {
 		return id;
@@ -108,6 +111,14 @@ public class ListaProdutoCotacao implements Serializable {
 
 	public void setProdutoTempPref(Produto produtoTempPref) {
 		this.produtoTempPref = produtoTempPref;
+	}
+
+	public float getPrecoKG() {
+		return precoKG;
+	}
+
+	public void setPrecoKG(float precoKG) {
+		this.precoKG = precoKG;
 	}
 
 	

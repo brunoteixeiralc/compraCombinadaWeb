@@ -41,6 +41,9 @@ public class ListaProdutoCotacaoAudit implements Serializable {
 	@JoinColumn(name = "lista_id")
 	private ListaCotacao lista;
 
+	@Column(name = "preco_kg")
+	private float precoKG;
+	
 	public int getId() {
 		return id;
 	}
@@ -96,6 +99,14 @@ public class ListaProdutoCotacaoAudit implements Serializable {
 
 	public void setDeletou(boolean deletou) {
 		this.deletou = deletou;
+	}
+	
+	public float getPrecoKG() {
+		return precoKG;
+	}
+
+	public void setPrecoKG(float precoKG) {
+		this.precoKG = precoKG;
 	}
 
 	
