@@ -37,6 +37,7 @@
         <mapping class="br.com.compra.combinada.bean.SubGrupo"/>
         <mapping class="br.com.compra.combinada.bean.Preferencia"/>
         <mapping class="br.com.compra.combinada.bean.ProdutoPreferencia"/>
+        <mapping class="br.com.compra.combinada.bean.Embalagem"/>
 
     </session-factory>
 </hibernate-configuration>

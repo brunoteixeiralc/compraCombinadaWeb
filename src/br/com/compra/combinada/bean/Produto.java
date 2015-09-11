@@ -54,11 +54,13 @@ public class Produto implements Serializable{
 	
 	private String barras;
 	
-	private String embalagem;
-	
 	private Timestamp interacao;
 	
 	private boolean ativo;
+	
+	@ManyToOne
+	@JoinColumn(name = "embalagem_id")
+	private Embalagem embalagem;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
@@ -67,6 +69,14 @@ public class Produto implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
 	private List<Preferencia> listPreferencia;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
+	private List<ListaProdutoCotacao> listProdutoGenerico;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
+	private List<ListaProdutoCotacaoAudit> listProdutoGenericoAudit;
 
 	public int getId() {
 		return id;
@@ -156,14 +166,6 @@ public class Produto implements Serializable{
 		this.barras = barras;
 	}
 
-	public String getEmbalagem() {
-		return embalagem;
-	}
-
-	public void setEmbalagem(String embalagem) {
-		this.embalagem = embalagem;
-	}
-
 	public boolean isAtivo() {
 		return ativo;
 	}
@@ -195,6 +197,29 @@ public class Produto implements Serializable{
 	public void setListPreferencia(List<Preferencia> listPreferencia) {
 		this.listPreferencia = listPreferencia;
 	}
-	
+
+	public Embalagem getEmbalagem() {
+		return embalagem;
+	}
+
+	public void setEmbalagem(Embalagem embalagem) {
+		this.embalagem = embalagem;
+	}
+
+	public List<ListaProdutoCotacao> getListProdutoGenerico() {
+		return listProdutoGenerico;
+	}
+
+	public void setListProdutoGenerico(List<ListaProdutoCotacao> listProdutoGenerico) {
+		this.listProdutoGenerico = listProdutoGenerico;
+	}
+
+	public List<ListaProdutoCotacaoAudit> getListProdutoGenericoAudit() {
+		return listProdutoGenericoAudit;
+	}
+
+	public void setListProdutoGenericoAudit(List<ListaProdutoCotacaoAudit> listProdutoGenericoAudit) {
+		this.listProdutoGenericoAudit = listProdutoGenericoAudit;
+	}
 
 }

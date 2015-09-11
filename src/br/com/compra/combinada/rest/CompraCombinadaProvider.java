@@ -98,6 +98,7 @@ public class CompraCombinadaProvider {
 	private Produto produto;
 	private List<ProdutoPreferencia> preferencias;
 	private ListaProdutoCotacao produtoCotacao;
+	private ListaProdutoCotacao listaProdutoCotacao;
 
 	
 	@GET
@@ -416,7 +417,7 @@ public class CompraCombinadaProvider {
 		
 		this.produtoDAO.salvar(produto);
 
-		return Response.status(200).entity("Produto Adicionado com sucesso").build();
+		return Response.status(200).entity(produto.getId()).build();
 
 	}
 	
@@ -431,10 +432,24 @@ public class CompraCombinadaProvider {
 		produtoCotacao = gson.fromJson(jsonListaProdutoCotacao,ListaProdutoCotacao.class);
 		
 		this.listaProdutoCotacaoDAO = DAOFactory.criarListaProdutoCotacaoDAO();
+		this.listaProdutoCotacaoAuditDAO = DAOFactory.criarListaProdutoCotacaoAuditDAO();
 		
 		produtoCotacao.setLista(this.listaProdutoCotacaoDAO.carregar(produtoCotacao.getId()));
 		
 		this.listaProdutoCotacaoDAO.update(produtoCotacao);
+		
+		ListaProdutoCotacaoAudit produtoCotacaoAudit = new ListaProdutoCotacaoAudit();
+		produtoCotacaoAudit.setId(produtoCotacao.getId());
+		produtoCotacaoAudit.setLista(produtoCotacao.getLista());
+		produtoCotacaoAudit.setProduto(produtoCotacao.getProduto());
+		produtoCotacaoAudit.setQuantidade(produtoCotacao.getQuantidade());
+		produtoCotacaoAudit.setNaoContem(produtoCotacao.isNaoContem());
+		produtoCotacaoAudit.setDeletou(produtoCotacao.isDeletou());
+		produtoCotacaoAudit.setPreco(produtoCotacao.getPreco());
+		produtoCotacaoAudit.setPrecoKG(produtoCotacao.getPrecoKG());
+		produtoCotacaoAudit.setAdicionado(produtoCotacao.getAdicionado());
+		
+		this.listaProdutoCotacaoAuditDAO.update(produtoCotacaoAudit);
 
 		return Response.status(200).entity("Produto cotação atualizado com sucesso").build();
 
@@ -462,19 +477,21 @@ public class CompraCombinadaProvider {
 			lpc.setLista(validarCotacao.getListaCotacao());
 			
 			if(lpc.getProduto().getPreferencia() == 1){
+				lpc.setProdutoGenerico(lpc.getProduto());
 				lpc.setProduto(lpc.getProdutoTempPref());	
 			}
 			
 			//Tabela de Auditoria
 			ListaProdutoCotacaoAudit lpcAudit = new ListaProdutoCotacaoAudit();
 			lpcAudit.setLista(lpc.getLista());
-			lpcAudit.setPreco(lpc.getPreco());
 			lpcAudit.setProduto(lpc.getProduto());
+			lpcAudit.setProdutoGenerico(lpc.getProdutoGenerico());
 			lpcAudit.setQuantidade(lpc.getQuantidade());
 			lpcAudit.setNaoContem(lpc.isNaoContem());
 			lpcAudit.setDeletou(lpc.isDeletou());
 			lpcAudit.setPreco(lpc.getPreco());
 			lpcAudit.setPrecoKG(lpc.getPrecoKG());
+			lpcAudit.setAdicionado(lpc.getAdicionado());
 			
 			this.listaProdutoCotacaoDAO.salvar(lpc);
 			this.listaProdutoCotacaoAuditDAO.salvar(lpcAudit);
@@ -485,6 +502,38 @@ public class CompraCombinadaProvider {
 		this.validarCotacaoDAO.salvar(validarCotacao);
 
 		return Response.status(200).entity(validarCotacao.getId()).build();
+		
+	}
+	
+	@POST
+	@Path("/addListaProdutoCotacao")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addListaProdutoCotacao(String jsonListaProdutoCotacao){
+		
+		gson = new Gson();
+		
+		listaProdutoCotacao = new ListaProdutoCotacao();
+		
+		listaProdutoCotacao = gson.fromJson(jsonListaProdutoCotacao,ListaProdutoCotacao.class);
+		
+		this.listaProdutoCotacaoDAO = DAOFactory.criarListaProdutoCotacaoDAO();
+		this.listaProdutoCotacaoAuditDAO = DAOFactory.criarListaProdutoCotacaoAuditDAO();
+			
+			//Tabela de Auditoria
+			ListaProdutoCotacaoAudit listaProdutoCotacaoAudit = new ListaProdutoCotacaoAudit();
+			listaProdutoCotacaoAudit.setLista(listaProdutoCotacao.getLista());
+			listaProdutoCotacaoAudit.setProduto(listaProdutoCotacao.getProduto());
+			listaProdutoCotacaoAudit.setQuantidade(listaProdutoCotacao.getQuantidade());
+			listaProdutoCotacaoAudit.setNaoContem(listaProdutoCotacao.isNaoContem());
+			listaProdutoCotacaoAudit.setDeletou(listaProdutoCotacao.isDeletou());
+			listaProdutoCotacaoAudit.setPreco(listaProdutoCotacao.getPreco());
+			listaProdutoCotacaoAudit.setPrecoKG(listaProdutoCotacao.getPrecoKG());
+			listaProdutoCotacaoAudit.setAdicionado(listaProdutoCotacao.getAdicionado());
+			
+			this.listaProdutoCotacaoDAO.salvar(listaProdutoCotacao);
+			this.listaProdutoCotacaoAuditDAO.salvar(listaProdutoCotacaoAudit);
+
+		return Response.status(200).entity(listaProdutoCotacao.getId()).build();
 		
 	}
 	
@@ -537,6 +586,7 @@ public class CompraCombinadaProvider {
 							 count++;
 							 continue;
 						 }
+						 
 						 int retval = Float.compare(lpc.getPreco(), c2.getListaCotacao().getProdutos().get(count).getPreco());
 						 
 						 if(retval > 0) {
@@ -601,4 +651,5 @@ public class CompraCombinadaProvider {
 		return Response.status(200).build();
 		
 	}
+
 }

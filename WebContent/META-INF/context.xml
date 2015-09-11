@@ -19,9 +19,9 @@
 			    removeAbandoned="true"
 			    removeAbandonedTimeout="60"
 				username="root" 
-				password="compracombinada" 
+				password="password" 
 				driverClassName="com.mysql.jdbc.Driver"
-				url="jdbc:mysql://compracombinada.cubupiuk3qim.sa-east-1.rds.amazonaws.com/compracombinada"/>
+				url="jdbc:mysql://combobox.crzsdpk8db6v.us-east-1.rds.amazonaws.com/combobox"/>
 
 				
 				

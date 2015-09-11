@@ -44,6 +44,12 @@ public class ListaProdutoCotacaoAudit implements Serializable {
 	@Column(name = "preco_kg")
 	private float precoKG;
 	
+	private String adicionado;
+	
+	@ManyToOne
+	@JoinColumn(name = "produto_generico_id")
+	private Produto produtoGenerico;
+	
 	public int getId() {
 		return id;
 	}
@@ -107,6 +113,22 @@ public class ListaProdutoCotacaoAudit implements Serializable {
 
 	public void setPrecoKG(float precoKG) {
 		this.precoKG = precoKG;
+	}
+
+	public String getAdicionado() {
+		return adicionado;
+	}
+
+	public void setAdicionado(String adicionado) {
+		this.adicionado = adicionado;
+	}
+
+	public Produto getProdutoGenerico() {
+		return produtoGenerico;
+	}
+
+	public void setProdutoGenerico(Produto produtoGenerico) {
+		this.produtoGenerico = produtoGenerico;
 	}
 
 	
