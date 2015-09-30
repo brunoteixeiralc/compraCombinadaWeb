@@ -32,7 +32,7 @@ public class Produto implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy="produto", cascade={CascadeType.PERSIST})
 	private List<ListaProduto> listaProdutos;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "familia_id")
 	private Familia familia;

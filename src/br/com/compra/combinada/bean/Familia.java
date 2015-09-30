@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,9 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 @Table(name="familia")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Familia implements Serializable {
 
 	private static final long serialVersionUID = -4314015677824175541L;
@@ -29,12 +32,13 @@ public class Familia implements Serializable {
 	
 	private String medida;
 
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "subgrupo_id")
 	private SubGrupo subGrupo;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="familia", cascade={CascadeType.PERSIST})
+	@OneToMany(mappedBy="familia", cascade={CascadeType.PERSIST},fetch=FetchType.LAZY)
 	private List<Produto> produtos;
 	
 	public int getId() {

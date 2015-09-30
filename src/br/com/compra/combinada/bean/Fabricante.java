@@ -45,7 +45,7 @@ public class Fabricante implements Serializable{
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
 	
-	private int cep;
+	private String cep;
 	
 	private String telefone;
 	
@@ -125,14 +125,6 @@ public class Fabricante implements Serializable{
 		this.estado = estado;
 	}
 
-	public int getCep() {
-		return cep;
-	}
-
-	public void setCep(int cep) {
-		this.cep = cep;
-	}
-
 	public String getTelefone() {
 		return telefone;
 	}
@@ -171,6 +163,14 @@ public class Fabricante implements Serializable{
 
 	public void setInteracao(Timestamp interacao) {
 		this.interacao = interacao;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 	
 	

@@ -22,7 +22,8 @@ public class EventoConvidadoDAOHibernate implements EventoConvidadoDAO {
 	public List<EventoConvidado> carregar(Integer usuario) {
 		
 		List<EventoConvidado> eventos = new ArrayList<EventoConvidado>();
-		eventos.addAll(this.session.createQuery("select ec from EventoConvidado ec where ec.usuario.id =" + usuario).list());
+		eventos.addAll(this.session.createQuery("select ec from EventoConvidado ec where ec.usuario.id =" + usuario +
+				" and ec.evento.temCotacao = 0").list());
 		
 		return eventos;
 	}

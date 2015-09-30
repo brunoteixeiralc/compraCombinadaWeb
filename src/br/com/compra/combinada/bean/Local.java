@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -27,12 +28,12 @@ public class Local implements Serializable {
 	private String endereco;
 	
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy="locais")
+	@ManyToMany(mappedBy="locais",fetch=FetchType.LAZY)
 	private List<Evento> eventos;
 
 	public int getId() {

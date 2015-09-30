@@ -22,7 +22,7 @@ import br.com.compra.combinada.bean.Evento;
 import br.com.compra.combinada.bean.EventoConvidado;
 import br.com.compra.combinada.bean.Familia;
 import br.com.compra.combinada.bean.Lista;
-import br.com.compra.combinada.bean.ListaProduto;
+import br.com.compra.combinada.bean.ListaCotacao;
 import br.com.compra.combinada.bean.ListaProdutoCotacao;
 import br.com.compra.combinada.bean.ListaProdutoCotacaoAudit;
 import br.com.compra.combinada.bean.Marca;
@@ -99,6 +99,7 @@ public class CompraCombinadaProvider {
 	private List<ProdutoPreferencia> preferencias;
 	private ListaProdutoCotacao produtoCotacao;
 	private ListaProdutoCotacao listaProdutoCotacao;
+	private ListaCotacao listaCotacao;
 
 	
 	@GET
@@ -135,7 +136,7 @@ public class CompraCombinadaProvider {
 	
 	@POST
 	@Path("/solicitacoes")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON + ";charset=ISO-8859-1")
 	public Response saveSolicitacoes(String jsonSolicitacoes){
 		
 		gson = new Gson();
@@ -271,6 +272,20 @@ public class CompraCombinadaProvider {
 		
 		
 		return listas;
+		
+	}
+	
+	@GET
+	@Path("/listaCotacaoUsuario/{usuarioId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ListaCotacao carregarListaCotacaoUsuario(@PathParam("usuarioId") Integer usuarioId){
+		
+		this.listaCotacaoDAO = DAOFactory.criarListaCotacaoDAO();
+		
+		listaCotacao = new ListaCotacao();
+		listaCotacao = this.listaCotacaoDAO.carregar(usuarioId);
+		
+		return listaCotacao;
 		
 	}
 	
@@ -564,6 +579,7 @@ public class CompraCombinadaProvider {
 				c.put(i, cotacao);
 			}
 			
+			
 			for (Map.Entry<Integer, Cotacao> map : c.entrySet()) {
 				
 				Cotacao c1 = new Cotacao();
@@ -580,35 +596,44 @@ public class CompraCombinadaProvider {
 					listaProdutoCotacaoIgual = new ArrayList<ListaProdutoCotacao>();
 					
 					for (ListaProdutoCotacao lpc : c1.getListaCotacao().getProdutos()) {
-						 
+						
+						if(count  > c2.getListaCotacao().getProdutos().size() - 1){
+							count++;
+							continue;
+						}
+							
 						 if((lpc.isNaoContem() || c2.getListaCotacao().getProdutos().get(count).isNaoContem()) ||
 								 lpc.isDeletou() || c2.getListaCotacao().getProdutos().get(count).isDeletou()){
+							 c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
 							 count++;
 							 continue;
 						 }
 						 
-						 int retval = Float.compare(lpc.getPreco(), c2.getListaCotacao().getProdutos().get(count).getPreco());
-						 
-						 if(retval > 0) {
-						        System.out.println("c1 is greater than c2");
-						        lpc.setPreco(0.0f);
-						     }
-						     else if(retval < 0) {
-						        System.out.println("c1 is less than c2");
-						        c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
-						     }
-						     else {
-						    	listaProdutoCotacaoIgual.add(lpc);
-						        System.out.println("c1 is equal to c2");
-						        
-						     }
+						 if(lpc.getPreco() != 0.0f && c2.getListaCotacao().getProdutos().get(count).getPreco() != 0.0f){
+							 
+							 int retval = Float.compare(lpc.getPreco(), c2.getListaCotacao().getProdutos().get(count).getPreco());
+							 
+							 if(retval > 0) {
+							        System.out.println("lpc is greater than c2");
+							        lpc.setPreco(0.0f);
+							     }
+							     else if(retval < 0) {
+							        System.out.println("lpc is less than c2");
+							        c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
+							     }
+							     else {
+							    	listaProdutoCotacaoIgual.add(lpc);
+							        System.out.println("lpc is equal to c2");
+							        
+							     }
+						 }
 						 
 						 count++;
 					}
 					
 				}
 				
-				break;
+				//break;
 			}
 			
 			//Caso tenha cotação igual.

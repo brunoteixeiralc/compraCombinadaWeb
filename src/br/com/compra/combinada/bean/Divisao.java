@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,11 +27,11 @@ public class Divisao implements Serializable {
 	private String descricao;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="divisao", cascade={CascadeType.PERSIST})
+	@OneToMany(mappedBy="divisao", cascade={CascadeType.PERSIST},fetch = FetchType.LAZY)
 	private List<Grupo> grupos;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="divisao", cascade={CascadeType.PERSIST})
+	@OneToMany(mappedBy="divisao", cascade={CascadeType.PERSIST},fetch = FetchType.LAZY)
 	private List<Produto> produtos;
 	
 	public int getId() {

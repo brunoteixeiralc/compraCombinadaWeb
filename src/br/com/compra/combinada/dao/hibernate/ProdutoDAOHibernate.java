@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.compra.combinada.bean.Configuracao;
 import br.com.compra.combinada.bean.Evento;
@@ -44,10 +48,14 @@ public class ProdutoDAOHibernate implements ProdutoDAO {
 	@Override
 	public List<Produto> listar() {
 		
-		List<Produto> produtos = new ArrayList<Produto>();
-		produtos.addAll((Collection<? extends Produto>) this.session.createQuery("select p from Produto p where p.ativo = 1").list());
-		
-		return produtos;
+		List<Produto> pList = new ArrayList<Produto>();
+		pList.addAll((Collection<? extends Produto>) this.session.createQuery("select p.id,p.nome,p.descricao,p.foto "
+				+ ",p.preferencia, f.nome, d.nome, f.medida from Produto p "
+				+ "inner join p.familia as f "
+				+ "inner join p.divisao as d "
+				+ "where p.ativo = 1").list());
+				
+		return pList;
 	}
 
 	@Override
