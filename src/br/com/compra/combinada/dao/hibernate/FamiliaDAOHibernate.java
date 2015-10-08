@@ -23,7 +23,8 @@ public class FamiliaDAOHibernate implements FamiliaDAO {
 	public List<Familia> listar() {
 		
 		List<Familia> familias = new ArrayList<Familia>();
-		familias.addAll((Collection<? extends Familia>) this.session.createQuery("select f from Familia f").list());
+		familias.addAll((Collection<? extends Familia>) this.session.createQuery("select f from Familia f")
+				.setMaxResults(2).list());
 		
 		return familias;
 	}

@@ -23,7 +23,8 @@ public class DivisaoDAOHibernate implements DivisaoDAO {
 	public List<Divisao> listar() {
 		
 		List<Divisao> divisoes = new ArrayList<Divisao>();
-		divisoes.addAll((Collection<? extends Divisao>) this.session.createQuery("select d from Divisao d").list());
+		divisoes.addAll((Collection<? extends Divisao>) this.session.createQuery("select d from Divisao d")
+				.setMaxResults(1).list());
 		
 		return divisoes;
 	}
