@@ -14,6 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+
 import br.com.compra.combinada.bean.Amizade;
 import br.com.compra.combinada.bean.Configuracao;
 import br.com.compra.combinada.bean.Cotacao;
@@ -50,8 +52,6 @@ import br.com.compra.combinada.dao.SolicitacoesDAO;
 import br.com.compra.combinada.dao.UsuarioDAO;
 import br.com.compra.combinada.dao.ValidarCotacaoDAO;
 import br.com.compra.combinada.util.DAOFactory;
-
-import com.google.gson.Gson;
 
 @Path("/compracombinada")
 public class CompraCombinadaProvider {
@@ -244,6 +244,19 @@ public class CompraCombinadaProvider {
 		
 	}
 	
+	@GET
+	@Path("/produtoFalta/{usuarioId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Evento> carregarProdutoFalta(@PathParam("usuarioId") Integer usuarioId) {
+
+		this.eventoDao = DAOFactory.criarEventoDAO();
+		eventos = new ArrayList<Evento>();
+		eventos.addAll(this.eventoDao.carregarProdutosFalta(usuarioId));
+
+		return eventos;
+
+	}
+
 	@GET
 	@Path("/amizade/{usuarioId}")
 	@Produces(MediaType.APPLICATION_JSON)

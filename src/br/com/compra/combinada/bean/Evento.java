@@ -1,6 +1,7 @@
 package br.com.compra.combinada.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -65,6 +66,8 @@ public class Evento implements Serializable {
 	private List<Usuario> usuarioFoiConvidados;
 	
 	private boolean temCotacao;
+
+	private Date interacao;
 
 	public String getNome() {
 		return nome;
@@ -136,6 +139,14 @@ public class Evento implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Date getInteracao() {
+		return interacao;
+	}
+
+	public void setInteracao(Date interacao) {
+		this.interacao = interacao;
 	}
 	
 	

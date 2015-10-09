@@ -18,4 +18,6 @@ public interface EventoDAO {
 	
 	public List<Evento> carregarFinalizados(Integer usuarioId);
 	
+	public List<Evento> carregarProdutosFalta(Integer usuarioId);
+
 }

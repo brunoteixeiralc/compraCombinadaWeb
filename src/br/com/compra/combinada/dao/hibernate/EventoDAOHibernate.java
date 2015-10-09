@@ -63,6 +63,17 @@ public class EventoDAOHibernate implements EventoDAO {
 		return eventos;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Evento> carregarProdutosFalta(Integer usuarioId) {
+		List<Evento> eventos = new ArrayList<Evento>();
+		eventos.addAll(
+				(Collection<? extends Evento>) this.session.createQuery("select e from Evento e where e.usuario.id ="
+						+ usuarioId + "and e.temCotacao = 1 order by e.interacao DESC").setMaxResults(1).list());
+
+		return eventos;
+	}
+
 	
 	
 }
