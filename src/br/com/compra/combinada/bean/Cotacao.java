@@ -1,6 +1,7 @@
 package br.com.compra.combinada.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,8 @@ public class Cotacao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "local_escolhido_id")
 	private Local localEscolhido;
+
+	private Date interacao;
 
 	public int getId() {
 		return id;
@@ -75,6 +78,14 @@ public class Cotacao implements Serializable {
 
 	public void setLocalEscolhido(Local localEscolhido) {
 		this.localEscolhido = localEscolhido;
+	}
+
+	public Date getInteracao() {
+		return interacao;
+	}
+
+	public void setInteracao(Date interacao) {
+		this.interacao = interacao;
 	}
 
 }

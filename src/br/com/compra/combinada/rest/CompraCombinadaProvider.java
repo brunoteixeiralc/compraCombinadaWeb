@@ -216,14 +216,15 @@ public class CompraCombinadaProvider {
 	}
 	
 	@GET
-	@Path("/preferencia/{produtoId}")
+	@Path("/preferencia/{produtoId}/{usuarioId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProdutoPreferencia> carregarPreferenciaProduto(@PathParam("produtoId") Integer produtoId){
+	public List<ProdutoPreferencia> carregarPreferenciaProduto(@PathParam("produtoId") Integer produtoId,
+			@PathParam("usuarioId") Integer usuarioId) {
 		
 
 		this.preferenciaDAO = DAOFactory.criarPreferenciaDAO();
 		preferencias = new ArrayList<ProdutoPreferencia>();
-		preferencias.addAll(this.preferenciaDAO.carregar(produtoId));
+		preferencias.addAll(this.preferenciaDAO.carregar(produtoId, usuarioId));
 
 		
 		return preferencias;
@@ -504,9 +505,9 @@ public class CompraCombinadaProvider {
 			
 			lpc.setLista(validarCotacao.getListaCotacao());
 			
-			if(lpc.getProduto().getPreferencia() == 1){
+			if (lpc.getProduto().getPreferencia() == 1) {
 				lpc.setProdutoGenerico(lpc.getProduto());
-				lpc.setProduto(lpc.getProdutoTempPref());	
+				lpc.setProduto(lpc.getProdutoTempPref());
 			}
 			
 			//Tabela de Auditoria
@@ -528,6 +529,15 @@ public class CompraCombinadaProvider {
 		this.validarCotacaoDAO = DAOFactory.criarValidacaoCotacaoDAO();
 		
 		this.validarCotacaoDAO.salvar(validarCotacao);
+
+		cotacaos = this.validarCotacaoDAO.carregar(validarCotacao.getEvento().getId());
+
+		if (cotacaos.size() == validarCotacao.getEvento().getUsuarioConvidados().size() + 1) {
+			System.out.println("terminou a cotação");
+			this.eventoDao = DAOFactory.criarEventoDAO();
+			validarCotacao.getEvento().setAcabouCotacao(true);
+			this.eventoDao.atualizar(validarCotacao.getEvento());
+		}
 
 		return Response.status(200).entity(validarCotacao.getId()).build();
 		
@@ -615,8 +625,17 @@ public class CompraCombinadaProvider {
 							continue;
 						}
 							
-						 if((lpc.isNaoContem() || c2.getListaCotacao().getProdutos().get(count).isNaoContem()) ||
-								 lpc.isDeletou() || c2.getListaCotacao().getProdutos().get(count).isDeletou()){
+					// if((lpc.isNaoContem() ||
+					// c2.getListaCotacao().getProdutos().get(count).isNaoContem())
+					// ||
+					// lpc.isDeletou() ||
+					// c2.getListaCotacao().getProdutos().get(count).isDeletou()){
+					// c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
+					// count++;
+					// continue;
+					// }
+
+					if (lpc.isDeletou() || c2.getListaCotacao().getProdutos().get(count).isDeletou()) {
 							 c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
 							 count++;
 							 continue;

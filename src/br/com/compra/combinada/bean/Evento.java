@@ -51,7 +51,7 @@ public class Evento implements Serializable {
 	
 	@ManyToOne
 	private Usuario usuario;
-	
+
 	@ManyToMany
     @JoinTable(name="evento_usuario_convidado", 
                 joinColumns={@JoinColumn(name="evento_id")}, 
@@ -66,6 +66,8 @@ public class Evento implements Serializable {
 	private List<Usuario> usuarioFoiConvidados;
 	
 	private boolean temCotacao;
+
+	private boolean acabouCotacao;
 
 	private Date interacao;
 
@@ -147,6 +149,14 @@ public class Evento implements Serializable {
 
 	public void setInteracao(Date interacao) {
 		this.interacao = interacao;
+	}
+
+	public boolean isAcabouCotacao() {
+		return acabouCotacao;
+	}
+
+	public void setAcabouCotacao(boolean acabouCotacao) {
+		this.acabouCotacao = acabouCotacao;
 	}
 	
 	

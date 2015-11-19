@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
@@ -50,6 +51,7 @@ public class Produto implements Serializable{
 	
 	private int usuario;
 	
+	@Transient
 	private int preferencia;
 	
 	private String barras;
@@ -150,13 +152,13 @@ public class Produto implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public int getPreferencia() {
-		return preferencia;
-	}
-
-	public void setPreferencia(int preferencia) {
-		this.preferencia = preferencia;
-	}
+	// public int getPreferencia() {
+	// return preferencia;
+	// }
+	//
+	// public void setPreferencia(int preferencia) {
+	// this.preferencia = preferencia;
+	// }
 
 	public String getBarras() {
 		return barras;
@@ -220,6 +222,14 @@ public class Produto implements Serializable{
 
 	public void setListProdutoGenericoAudit(List<ListaProdutoCotacaoAudit> listProdutoGenericoAudit) {
 		this.listProdutoGenericoAudit = listProdutoGenericoAudit;
+	}
+
+	public int getPreferencia() {
+		return preferencia;
+	}
+
+	public void setPreferencia(int preferencia) {
+		this.preferencia = preferencia;
 	}
 
 }

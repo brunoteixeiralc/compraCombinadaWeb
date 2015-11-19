@@ -20,12 +20,13 @@ public class PreferenciaDAOHibernate implements PreferenciaDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProdutoPreferencia> carregar(Integer produtoId) {
+	public List<ProdutoPreferencia> carregar(Integer produtoId, Integer usuarioId) {
 		
 		List<ProdutoPreferencia> preferencias = new ArrayList<ProdutoPreferencia>();
 		preferencias.addAll((Collection<? extends ProdutoPreferencia>) this.session.createQuery("select pp from ProdutoPreferencia as pp "
 				+ "inner join pp.preferencia as p "
-				+ "where p.produto.id = " + produtoId).list());
+						+ "where p.produto.id = " + produtoId + "and p.usuario.id = " + usuarioId)
+				.list());
 		
 		return preferencias;
 	}

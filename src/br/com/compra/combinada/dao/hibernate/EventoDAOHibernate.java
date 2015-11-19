@@ -7,6 +7,9 @@ import java.util.List;
 import org.hibernate.Session;
 
 import br.com.compra.combinada.bean.Evento;
+import br.com.compra.combinada.bean.Lista;
+import br.com.compra.combinada.bean.ListaProduto;
+import br.com.compra.combinada.bean.Produto;
 import br.com.compra.combinada.dao.EventoDAO;
 
 
@@ -47,9 +50,29 @@ public class EventoDAOHibernate implements EventoDAO {
 	public List<Evento> carregar(Integer usuarioId) {
 		
 		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.addAll((Collection<? extends Evento>) this.session.createQuery("select e from Evento e where e.usuario.id =" + usuarioId + 
-				"and e.temCotacao = 0").list());
+		eventos.addAll(
+				(Collection<? extends Evento>) this.session
+						.createQuery(
+								"select e from Evento e  where e.usuario.id =" + usuarioId + "and e.temCotacao = 0")
+						.list());
 		
+		for (Evento evento : eventos) {
+			for (Lista lista : evento.getListas()) {
+				for (ListaProduto listaProduto : lista.getProdutos()) {
+					Produto p = listaProduto.getProduto();
+					int count = this.session
+.createQuery("select p.id from Preferencia p where p.produto.id ="
+							+ p.getId() + " and p.usuario.id =" + usuarioId).list()
+							.size();
+
+					if (count != 0) {
+						p.setPreferencia(1);
+					}
+				}
+			}
+
+		}
+
 		return eventos;
 	}
 

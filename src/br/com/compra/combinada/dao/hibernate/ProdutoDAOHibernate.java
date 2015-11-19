@@ -4,18 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Query;
-
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-import br.com.compra.combinada.bean.Configuracao;
-import br.com.compra.combinada.bean.Evento;
 import br.com.compra.combinada.bean.Produto;
-import br.com.compra.combinada.bean.Usuario;
 import br.com.compra.combinada.dao.ProdutoDAO;
-import br.com.compra.combinada.dao.UsuarioDAO;
 
 
 public class ProdutoDAOHibernate implements ProdutoDAO {
@@ -50,7 +42,7 @@ public class ProdutoDAOHibernate implements ProdutoDAO {
 		
 		List<Produto> pList = new ArrayList<Produto>();
 		pList.addAll((Collection<? extends Produto>) this.session.createQuery("select p.id,p.nome,p.descricao,p.foto "
-				+ ",p.preferencia, f.nome, d.nome, f.medida from Produto p "
+ + ", f.nome, d.nome, f.medida from Produto p "
 				+ "inner join p.familia as f "
 				+ "inner join p.divisao as d "
 				+ "where p.ativo = 1").list());

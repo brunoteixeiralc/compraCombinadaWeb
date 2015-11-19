@@ -35,7 +35,11 @@ public class CotacaoDAOHibernate implements CotacaoDAO {
 	public List<Cotacao> pesquisarCotacao(Integer usuario) {
 		
 		List<Cotacao> cotacoes = new ArrayList<Cotacao>();
-		cotacoes.addAll((Collection<? extends Cotacao>) this.session.createQuery("select c from Cotacao c where c.usuario.id =" + usuario).list());
+		cotacoes.addAll(
+				(Collection<? extends Cotacao>) this.session
+						.createQuery(
+								"select c from Cotacao c where c.usuario.id =" + usuario + " order by c.interacao DESC")
+						.setMaxResults(1).list());
 		
 		return cotacoes;
 	}
