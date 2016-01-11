@@ -61,7 +61,7 @@ public class EventoDAOHibernate implements EventoDAO {
 				for (ListaProduto listaProduto : lista.getProdutos()) {
 					Produto p = listaProduto.getProduto();
 					int count = this.session
-.createQuery("select p.id from Preferencia p where p.produto.id ="
+							.createQuery("select p.id from Preferencia p where p.produto.id ="
 							+ p.getId() + " and p.usuario.id =" + usuarioId).list()
 							.size();
 

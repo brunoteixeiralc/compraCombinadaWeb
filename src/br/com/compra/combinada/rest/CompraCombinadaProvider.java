@@ -634,8 +634,14 @@ public class CompraCombinadaProvider {
 					// count++;
 					// continue;
 					// }
-
-					if (lpc.isDeletou() || c2.getListaCotacao().getProdutos().get(count).isDeletou()) {
+						
+					if (lpc.getProduto() == null
+							|| c2.getListaCotacao().getProdutos().get(count).getProduto() == null) {
+							count++;
+							continue;
+						}
+							
+						if (lpc.isDeletou() || c2.getListaCotacao().getProdutos().get(count).isDeletou()) {
 							 c2.getListaCotacao().getProdutos().get(count).setPreco(0.0f);
 							 count++;
 							 continue;
