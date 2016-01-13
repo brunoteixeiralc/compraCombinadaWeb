@@ -46,8 +46,17 @@ public class UsuarioDAOHibernate implements UsuarioDAO {
 	
 	@SuppressWarnings("deprecation")
 	public Usuario loginUsuario(String login,String senha){
-		return ((Usuario) this.session.createCriteria(Usuario.class).add(org.hibernate.criterion.Expression.eq("login", login))
-				.add(org.hibernate.criterion.Expression.eq("senha", senha)).uniqueResult());
+
+		if (login.contains("@")) {
+			return ((Usuario) this.session.createCriteria(Usuario.class)
+					.add(org.hibernate.criterion.Expression.eq("email", login))
+					.add(org.hibernate.criterion.Expression.eq("senha", senha)).uniqueResult());
+		} else {
+			return ((Usuario) this.session.createCriteria(Usuario.class)
+					.add(org.hibernate.criterion.Expression.eq("login", login))
+					.add(org.hibernate.criterion.Expression.eq("senha", senha)).uniqueResult());
+		}
+
 	}
 
 }

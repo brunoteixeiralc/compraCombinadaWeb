@@ -68,7 +68,8 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy="usuario")
 	private List<Preferencia> preferencias;
 	
-	
+	private String email;
+
 	private String login;
 	
 	private String senha;
@@ -211,6 +212,13 @@ public class Usuario implements Serializable {
 		this.preferencias = preferencias;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	
 
